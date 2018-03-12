@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">抖音Demo</string>
+    <string name="tap_to_record">按住拍</string>
+    <string name="next_step">下一步</string>
+</resources>

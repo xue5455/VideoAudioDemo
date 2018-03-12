@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xue.douyin.douyin.common.view.roundrect.RoundRectLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    app:radius="@dimen/video_radius">
+
+    <com.xue.douyin.douyin.common.view.record.RecordView
+        android:id="@+id/record_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.xue.douyin.douyin.common.view.ProgressView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/video_progress_height"
+        android:layout_marginLeft="@dimen/video_progress_margin"
+        android:layout_marginRight="@dimen/video_progress_margin"
+        android:layout_marginTop="@dimen/video_progress_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pv_divider_width="@dimen/video_progress_divider"
+        app:pv_radius="@dimen/video_progress_radius" />
+
+    <com.xue.douyin.douyin.common.view.RecordButton
+        android:id="@+id/btn_record"
+        android:layout_width="@dimen/record_btn_size"
+        android:layout_height="@dimen/record_btn_size"
+        android:layout_marginBottom="@dimen/record_margin_bottom"
+        android:gravity="center"
+        android:text="@string/tap_to_record"
+        android:textSize="@dimen/text_size_s"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+</com.xue.douyin.douyin.common.view.roundrect.RoundRectLayout>

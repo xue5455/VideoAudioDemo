@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xue.douyin.douyin.common.view.roundrect.RoundRectLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    app:radius="@dimen/video_radius">
+
+    <com.xue.douyin.douyin.common.view.record.RecordSurfaceView
+        android:id="@+id/sv_record"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.xue.douyin.douyin.common.view.ProgressView
+        android:id="@+id/record_progress"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/video_progress_height"
+        android:layout_marginLeft="@dimen/video_progress_margin"
+        android:layout_marginRight="@dimen/video_progress_margin"
+        android:layout_marginTop="@dimen/video_progress_margin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:pv_divider_width="@dimen/video_progress_divider"
+        app:pv_radius="@dimen/video_progress_radius" />
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="1px"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cb_flashlight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/record_flashlight_margin_top"
+        android:background="@drawable/selector_flashlight"
+        android:button="@null"
+        app:layout_constraintRight_toLeftOf="@+id/anchor"
+        app:layout_constraintTop_toBottomOf="@+id/record_progress" />
+
+    <CheckBox
+        android:id="@+id/cb_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/record_camera_margin_left"
+        android:layout_marginTop="@dimen/record_flashlight_margin_top"
+        android:background="@drawable/selector_camera"
+        android:button="@null"
+        android:checked="false"
+        app:layout_constraintLeft_toRightOf="@+id/anchor"
+        app:layout_constraintTop_toBottomOf="@+id/record_progress" />
+
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/record_next_button_width"
+        android:layout_height="@dimen/record_next_button_height"
+        android:layout_marginRight="@dimen/common_margin"
+        android:background="@drawable/bg_record_next_button"
+        android:text="@string/next_step"
+        app:layout_constraintBottom_toBottomOf="@+id/cb_camera"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cb_camera" />
+
+    <ImageView
+        android:id="@+id/img_cut_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/common_margin"
+        android:layout_marginTop="@dimen/record_cut_margin_top"
+        android:src="@mipmap/ic_cut_music"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_next" />
+
+    <TextView
+        android:id="@+id/cut_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="剪音乐"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xs"
+        app:layout_constraintLeft_toLeftOf="@+id/img_cut_music"
+        app:layout_constraintRight_toRightOf="@+id/img_cut_music"
+        app:layout_constraintTop_toBottomOf="@+id/img_cut_music" />
+
+    <CheckBox
+        android:id="@+id/cb_beautify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/common_margin"
+        android:layout_marginTop="@dimen/record_beautify_margin_top"
+        android:background="@drawable/selector_beautify"
+        android:button="@null"
+        android:src="@mipmap/ic_cut_music"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cut_text" />
+
+    <TextView
+        android:id="@+id/tv_beautify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="美颜开"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xs"
+        app:layout_constraintLeft_toLeftOf="@+id/cb_beautify"
+        app:layout_constraintRight_toRightOf="@+id/cb_beautify"
+        app:layout_constraintTop_toBottomOf="@+id/cb_beautify" />
+
+    <com.xue.douyin.douyin.common.view.RoundImageView
+        android:id="@+id/img_beautify"
+        android:layout_width="@dimen/record_filter_icon_size"
+        android:layout_height="@dimen/record_filter_icon_size"
+        android:layout_marginRight="@dimen/common_margin"
+        android:layout_marginTop="@dimen/record_filter_margin_top"
+        android:src="@mipmap/filter_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_beautify" />
+
+    <TextView
+        android:id="@+id/tv_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="美颜"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_s"
+        app:layout_constraintLeft_toLeftOf="@+id/img_beautify"
+        app:layout_constraintRight_toRightOf="@+id/img_beautify"
+        app:layout_constraintTop_toBottomOf="@+id/img_beautify" />
+
+    <ImageView
+        android:id="@+id/img_count_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/common_margin"
+        android:layout_marginTop="@dimen/record_beautify_margin_top"
+        android:src="@mipmap/ic_countdown"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_filter" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="倒计时"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xs"
+        app:layout_constraintLeft_toLeftOf="@+id/img_count_down"
+        app:layout_constraintRight_toRightOf="@+id/img_count_down"
+        app:layout_constraintTop_toBottomOf="@+id/img_count_down" />
+
+    <com.xue.douyin.douyin.common.view.RecordButton
+        android:id="@+id/btn_record"
+        android:layout_width="@dimen/record_btn_size"
+        android:layout_height="@dimen/record_btn_size"
+        android:layout_marginBottom="@dimen/record_margin_bottom"
+        android:gravity="center"
+        android:text="@string/tap_to_record"
+        android:textSize="@dimen/text_size_s"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/view_speed"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="#80000000"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_record"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        app:layout_constraintRight_toRightOf="@+id/view_speed"
+        android:layout_marginRight="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_record"
+        app:layout_constraintTop_toTopOf="@+id/btn_record" />
+</com.xue.douyin.douyin.common.view.roundrect.RoundRectLayout>
