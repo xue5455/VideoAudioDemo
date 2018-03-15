@@ -1,4 +1,4 @@
-package com.xue.douyin.common.codec;
+package com.xue.douyin.common.codec.video;
 
 import com.xue.douyin.common.preview.CameraFilter;
 

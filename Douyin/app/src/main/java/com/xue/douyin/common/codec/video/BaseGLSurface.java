@@ -1,7 +1,9 @@
-package com.xue.douyin.common.codec;
+package com.xue.douyin.common.codec.video;
 
 import android.opengl.EGL14;
 import android.opengl.EGLSurface;
+
+import com.xue.douyin.common.codec.video.GLCore;
 import com.xue.douyin.common.util.LogUtil;
 
 /**

@@ -1,4 +1,4 @@
-package com.xue.douyin.common.codec;
+package com.xue.douyin.common.codec.video;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.EGL14;

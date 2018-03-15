@@ -5,7 +5,7 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
-import com.xue.douyin.common.codec.VideoFrameData;
+import com.xue.douyin.common.codec.video.VideoFrameData;
 import com.xue.douyin.common.preview.CameraFilter;
 import com.xue.douyin.common.preview.GLUtils;
 
@@ -22,13 +22,15 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
 
     private CameraFilter mOldFilter;
 
-    private CameraFilter mFilter = new CameraFilter();
+    private CameraFilter mFilter;
 
     private int mTextureId;
 
     private SurfaceTexture mSurfaceTexture;
 
     private OnFrameAvailableListener mFrameListener;
+
+    private float[] mMatrix = new float[16];
 
     public RecordRenderer(RecordSurfaceView target) {
         this.mTarget = target;
@@ -39,6 +41,10 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mTextureId = GLUtils.createTextureObject(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
+        if(mFilter!=null){
+            mFilter.release();
+        }
+        mFilter = new CameraFilter();
     }
 
     @Override
@@ -50,8 +56,6 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mOldFilter = mFilter;
         mFilter = filter;
     }
-
-    private float[] mMatrix = new float[16];
 
     @Override
     public void onDrawFrame(GL10 gl) {

@@ -1,4 +1,4 @@
-package com.xue.douyin.common.codec;
+package com.xue.douyin.common.codec.video;
 
 import android.opengl.EGLContext;
 
@@ -7,6 +7,9 @@ import android.opengl.EGLContext;
  */
 
 public class VideoConfig {
+
+    private String mOutputFile;
+
     private EGLContext mGLContext;
 
     private int mVideoWidth;
@@ -15,11 +18,18 @@ public class VideoConfig {
 
     private int mBitRate;
 
-    public VideoConfig(EGLContext context, int width, int height, int bitRate) {
+    private long mMaxLength;
+
+    private float mSpeed;
+
+    public VideoConfig(EGLContext context, int width, int height, int bitRate, String file, long maxLength,float speed) {
         this.mGLContext = context;
         this.mVideoWidth = width;
         this.mVideoHeight = height;
         this.mBitRate = bitRate;
+        this.mOutputFile = file;
+        this.mMaxLength = maxLength;
+        this.mSpeed = speed;
     }
 
     public EGLContext getGLContext() {
@@ -36,5 +46,17 @@ public class VideoConfig {
 
     public int getBitRate() {
         return mBitRate;
+    }
+
+    public String getOuputFile() {
+        return mOutputFile;
+    }
+
+    public long getMaxLength() {
+        return mMaxLength;
+    }
+
+    public float getSpeed(){
+        return mSpeed;
     }
 }
