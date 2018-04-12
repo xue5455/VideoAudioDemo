@@ -2,7 +2,7 @@ package Jni;
 
 import android.support.annotation.Keep;
 
-import com.netease.ffmpeg.VideoCmdCallback;
+import com.xue.douyin.ffmpeg.VideoCmdCallback;
 import com.xue.douyin.common.util.LogUtil;
 
 @Keep
@@ -58,6 +58,7 @@ public class FFmpegCmd {
      */
     @Keep
     public static void exec(String[] cmds, VideoCmdCallback callback) {
+        long t1 = System.currentTimeMillis();
         int ret = exec(cmds.length, cmds);
         synchronized (sLock) {
             try {
@@ -69,5 +70,7 @@ public class FFmpegCmd {
         if (callback != null) {
             callback.onCommandFinish(ret == 0);
         }
+        long t2 = System.currentTimeMillis();
+        LogUtil.d("耗时 " + (t2 - t1) + "ms");
     }
 }

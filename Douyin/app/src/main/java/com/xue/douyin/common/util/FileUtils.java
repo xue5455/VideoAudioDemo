@@ -3,6 +3,9 @@ package com.xue.douyin.common.util;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.List;
 
@@ -54,5 +57,27 @@ public class FileUtils {
     public static void renameFile(String original, String dest) {
         File file = new File(original);
         file.renameTo(new File(dest));
+    }
+
+    public static void createFile(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            LogUtil.e(e);
+        }
+    }
+
+    public static void closeSafely(OutputStream fos) {
+        try {
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            LogUtil.e(e);
+        }
+
     }
 }

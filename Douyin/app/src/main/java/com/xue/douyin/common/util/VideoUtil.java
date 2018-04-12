@@ -3,6 +3,8 @@ package com.xue.douyin.common.util;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 
+import com.xue.douyin.common.C;
+
 /**
  * Created by 薛贤俊 on 2018/3/14.
  */
@@ -71,5 +73,13 @@ public class VideoUtil {
             }
         }
         return -1;
+    }
+
+    public static int calculateAudioSamples(int seconds, int sampleRate, int samplePerFrame) {
+        return (int) (Math.ceil(seconds * 1.0 * sampleRate / samplePerFrame)) * 2;
+    }
+
+    public static int calculateVideoSamples(int seconds, int fps) {
+        return seconds * fps;
     }
 }

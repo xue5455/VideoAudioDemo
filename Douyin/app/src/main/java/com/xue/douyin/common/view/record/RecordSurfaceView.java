@@ -52,4 +52,8 @@ public class RecordSurfaceView extends GLSurfaceView implements SurfaceTexture.O
     public void setFrameListener(OnFrameAvailableListener listener) {
         mRenderer.setFrameListener(listener);
     }
+
+    public void setPreviewSize(int width,int height){
+        mRenderer.setPreviewSize(width,height);
+    }
 }

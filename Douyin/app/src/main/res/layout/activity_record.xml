@@ -6,7 +6,7 @@
     android:background="@color/black"
     app:radius="@dimen/video_radius">
 
-    <android.opengl.GLSurfaceView
+    <com.xue.douyin.common.view.record.RecordSurfaceView
         android:id="@+id/sv_record"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -65,9 +65,9 @@
         android:layout_marginRight="@dimen/common_margin"
         android:background="@drawable/bg_record_next_button"
         android:text="@string/next_step"
-        app:layout_constraintBottom_toBottomOf="@+id/cb_camera"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cb_camera" />
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/record_progress" />
 
     <ImageView
         android:id="@+id/img_cut_music"
@@ -129,7 +129,7 @@
         android:layout_height="wrap_content"
         android:text="美颜"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_s"
+        android:textSize="@dimen/text_size_xs"
         app:layout_constraintLeft_toLeftOf="@+id/img_beautify"
         app:layout_constraintRight_toRightOf="@+id/img_beautify"
         app:layout_constraintTop_toBottomOf="@+id/img_beautify" />
@@ -145,6 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_filter" />
 
     <TextView
+        android:id="@+id/tv_count_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="倒计时"
@@ -166,24 +167,89 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <View
-        android:id="@+id/view_speed"
+    <RadioGroup
+        android:id="@+id/rg_speed"
         android:layout_width="0dp"
         android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:background="#80000000"
-        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape_speed_control"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/btn_record"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent">
+
+        <RadioButton
+            android:id="@+id/btn_extra_slow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_speed_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="极慢"
+            android:textColor="@drawable/selector_speed_text" />
+
+        <RadioButton
+            android:id="@+id/btn_slow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_speed_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="慢"
+            android:textColor="@drawable/selector_speed_text" />
+
+        <RadioButton
+            android:id="@+id/btn_normal"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_speed_button"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="标准"
+            android:textColor="@drawable/selector_speed_text" />
+
+        <RadioButton
+            android:id="@+id/btn_fast"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_speed_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="快"
+            android:textColor="@drawable/selector_speed_text" />
+
+        <RadioButton
+            android:id="@+id/btn_extra_fast"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_speed_button"
+            android:button="@null"
+            android:gravity="center"
+            android:text="极快"
+            android:textColor="@drawable/selector_speed_text" />
+    </RadioGroup>
 
     <ImageView
-        app:layout_constraintRight_toRightOf="@+id/view_speed"
-        android:layout_marginRight="10dp"
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:src="@mipmap/ic_delete"
         app:layout_constraintBottom_toBottomOf="@+id/btn_record"
+        app:layout_constraintRight_toRightOf="@+id/rg_speed"
         app:layout_constraintTop_toTopOf="@+id/btn_record" />
+
+    <android.support.constraint.Group
+        android:id="@+id/record_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btn_delete,rg_speed,cb_flashlight,cb_camera,img_cut_music,cut_text,cb_beautify,tv_beautify,img_beautify,tv_filter,img_count_down,tv_count_down" />
 </com.xue.douyin.common.view.roundrect.RoundRectLayout>

@@ -5,8 +5,9 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
-import com.xue.douyin.common.codec.video.VideoFrameData;
-import com.xue.douyin.common.preview.CameraFilter;
+import com.xue.douyin.common.recorder.video.VideoFrameData;
+import com.xue.douyin.common.preview.filters.SobelEdgeDetectFilter;
+import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.GLUtils;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -20,15 +21,19 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
 
     private RecordSurfaceView mTarget;
 
-    private CameraFilter mOldFilter;
+    private ImageFilter mOldFilter;
 
-    private CameraFilter mFilter;
+    private ImageFilter mFilter;
 
     private int mTextureId;
 
     private SurfaceTexture mSurfaceTexture;
 
     private OnFrameAvailableListener mFrameListener;
+
+    private int mPreviewWidth;
+
+    private int mPreviewHeight;
 
     private float[] mMatrix = new float[16];
 
@@ -44,21 +49,29 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         if(mFilter!=null){
             mFilter.release();
         }
-        mFilter = new CameraFilter();
+//        mFilter = new ColorContrastFilter(1f);
+        mFilter = new ImageFilter();
     }
 
+    public void setPreviewSize(int width,int height){
+        mPreviewHeight = height;
+        mPreviewWidth = width;
+    }
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
 
     }
 
-    public void setFilter(CameraFilter filter) {
+    public void setFilter(ImageFilter filter) {
         mOldFilter = mFilter;
         mFilter = filter;
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        if(mFilter==null){
+            return;
+        }
         float matrix[] = new float[16];
         if (mSurfaceTexture != null) {
             mSurfaceTexture.updateTexImage();

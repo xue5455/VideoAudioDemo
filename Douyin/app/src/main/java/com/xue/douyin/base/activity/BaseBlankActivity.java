@@ -12,6 +12,7 @@ import com.xue.douyin.base.presenter.BaseActivityPresenter;
  */
 
 public abstract class BaseBlankActivity<T extends BaseActivityPresenter> extends BaseActivity<T> {
+
     private ViewGroup mContentView;
 
     @Override

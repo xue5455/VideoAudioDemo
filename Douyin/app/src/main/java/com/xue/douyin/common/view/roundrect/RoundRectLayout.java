@@ -35,7 +35,7 @@ public class RoundRectLayout extends ConstraintLayout {
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(Canvas canvas) {
         ensurePath();
         canvas.save();
         canvas.clipPath(mPath);

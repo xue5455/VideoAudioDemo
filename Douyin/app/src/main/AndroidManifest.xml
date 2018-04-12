@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
-
     <application
         android:name="com.xue.douyin.application.DYApplication"
         android:allowBackup="true"
@@ -31,6 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.xue.douyin.module.effect.activity.AfterEffectActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

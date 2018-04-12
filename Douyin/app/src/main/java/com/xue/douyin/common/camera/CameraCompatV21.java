@@ -167,7 +167,7 @@ public class CameraCompatV21 extends CameraCompat {
     protected void onStartPreview() {
         try {
             mSurface = new Surface(mSurfaceTexture);
-            mSurfaceTexture.setDefaultBufferSize(getOutputSize().width,getOutputSize().height);
+            mSurfaceTexture.setDefaultBufferSize(getOutputSize().width, getOutputSize().height);
             mRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mRequestBuilder.addTarget(mSurface);
             mRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
