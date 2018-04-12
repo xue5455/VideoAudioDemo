@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.view.Surface;
 
 import com.xue.douyin.common.C;
-import com.xue.douyin.common.recorder.tst.Consumer;
 import com.xue.douyin.common.recorder.video.OffScreenWrapper;
 import com.xue.douyin.common.recorder.video.VideoConfig;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
@@ -19,7 +18,6 @@ import com.xue.douyin.common.util.ThreadUtil;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import static com.xue.douyin.common.recorder.MediaConfig.MODE_NORMAL;
 
 /**
  * Created by 薛贤俊 on 2018/4/11.
@@ -60,7 +58,7 @@ public class VideoRecorder implements Recorder<VideoConfig> {
 
     @Override
     public int getDataType() {
-        return Consumer.VIDEO;
+        return C.VIDEO;
     }
 
     @Override
@@ -129,7 +127,7 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         muxer.release();
         muxer = null;
         if (listener != null) {
-            listener.onRecordFinish(new ClipInfo(configuration.getFileName(), duration, MODE_NORMAL, getDataType()));
+            listener.onRecordFinish(new ClipInfo(configuration.getFileName(), duration, getDataType()));
         }
         offScreen = null;
         inputSurface = null;

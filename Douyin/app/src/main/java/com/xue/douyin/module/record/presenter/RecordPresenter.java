@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.xue.douyin.R;
 import com.xue.douyin.base.presenter.BaseActivityPresenter;
+import com.xue.douyin.common.C;
 import com.xue.douyin.common.recorder.ClipInfo;
 import com.xue.douyin.common.recorder.MediaConfig;
 import com.xue.douyin.common.recorder.MediaRecorder;
@@ -32,9 +33,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xue.douyin.common.recorder.MediaConfig.MODE_NORMAL;
-import static com.xue.douyin.common.recorder.tst.Consumer.AUDIO;
-import static com.xue.douyin.common.recorder.tst.Consumer.VIDEO;
+import static com.xue.douyin.common.C.AUDIO;
+import static com.xue.douyin.common.C.MODE_EXTRA_SLOW;
+import static com.xue.douyin.common.C.MODE_NORMAL;
+import static com.xue.douyin.common.C.VIDEO;
+
 
 /**
  * Created by 薛贤俊 on 2018/3/1.
@@ -59,7 +62,7 @@ public class RecordPresenter extends BaseActivityPresenter<RecordActivity>
     /**
      * 初始速度1.0f
      */
-    private @MediaConfig.SpeedMode
+    private @C.SpeedMode
     int mMode = MODE_NORMAL;
 
     private MediaRecorder mRecorder;
@@ -191,11 +194,12 @@ public class RecordPresenter extends BaseActivityPresenter<RecordActivity>
                 onNextClick();
                 break;
             case R.id.btn_delete:
-                if (mRecorder.getVideos().size() == 0) {
+                if (videoList.isEmpty()) {
                     return;
                 }
-                mRecorder.deleteLastClip();
+                String file = videoList.remove(videoList.size() - 1);
                 getTarget().deleteProgress();
+                FileUtils.deleteFile(file);
                 break;
         }
 
@@ -244,19 +248,19 @@ public class RecordPresenter extends BaseActivityPresenter<RecordActivity>
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.btn_extra_slow:
-                mMode = MediaConfig.MODE_EXTRA_SLOW;
+                mMode = C.MODE_EXTRA_SLOW;
                 break;
             case R.id.btn_slow:
-                mMode = MediaConfig.MODE_SLOW;
+                mMode = C.MODE_SLOW;
                 break;
             case R.id.btn_normal:
-                mMode = MediaConfig.MODE_NORMAL;
+                mMode = C.MODE_NORMAL;
                 break;
             case R.id.btn_fast:
-                mMode = MediaConfig.MODE_FAST;
+                mMode = C.MODE_FAST;
                 break;
             case R.id.btn_extra_fast:
-                mMode = MediaConfig.MODE_EXTRA_FAST;
+                mMode = C.MODE_EXTRA_FAST;
                 break;
         }
     }

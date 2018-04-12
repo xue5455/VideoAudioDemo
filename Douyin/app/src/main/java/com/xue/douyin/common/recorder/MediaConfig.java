@@ -1,12 +1,16 @@
 package com.xue.douyin.common.recorder;
 
-import android.support.annotation.IntDef;
 
+import com.xue.douyin.common.C;
 import com.xue.douyin.common.recorder.audio.AudioConfig;
 import com.xue.douyin.common.recorder.video.VideoConfig;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import static com.xue.douyin.common.C.MODE_EXTRA_FAST;
+import static com.xue.douyin.common.C.MODE_EXTRA_SLOW;
+import static com.xue.douyin.common.C.MODE_FAST;
+import static com.xue.douyin.common.C.MODE_NORMAL;
+import static com.xue.douyin.common.C.MODE_SLOW;
+
 
 /**
  * Created by 薛贤俊 on 2018/3/21.
@@ -14,21 +18,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class MediaConfig {
 
-    public static final int MODE_EXTRA_SLOW = 1;
 
-    public static final int MODE_SLOW = 2;
-
-    public static final int MODE_NORMAL = 3;
-
-    public static final int MODE_FAST = 4;
-
-    public static final int MODE_EXTRA_FAST = 5;
-
-    @IntDef({MODE_EXTRA_SLOW, MODE_SLOW, MODE_NORMAL, MODE_FAST, MODE_EXTRA_FAST})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface SpeedMode {
-
-    }
 
     private String filePath;
 
@@ -40,14 +30,14 @@ public class MediaConfig {
 
     private boolean supportAudio;
 
-    private @SpeedMode
+    private @C.SpeedMode
     int mSpeedMode;
 
     public MediaConfig(String filePath) {
         this.filePath = filePath;
     }
 
-    public void setSpeedMode(@SpeedMode int speedMode) {
+    public void setSpeedMode(@C.SpeedMode int speedMode) {
         this.mSpeedMode = speedMode;
     }
 
@@ -92,7 +82,7 @@ public class MediaConfig {
         return getSpeedFactor(mSpeedMode);
     }
 
-    public static float getSpeedFactor(@SpeedMode int speedMode) {
+    public static float getSpeedFactor(@C.SpeedMode int speedMode) {
         switch (speedMode) {
             case MODE_EXTRA_SLOW:
                 return 1f / 3;

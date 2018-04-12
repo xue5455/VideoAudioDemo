@@ -7,7 +7,6 @@ import android.os.Handler;
 import com.netease.soundtouch.SoundTouch;
 import com.xue.douyin.common.C;
 import com.xue.douyin.common.recorder.audio.AudioConfig;
-import com.xue.douyin.common.recorder.tst.Consumer;
 import com.xue.douyin.common.util.FileUtils;
 import com.xue.douyin.common.util.LogUtil;
 import com.xue.douyin.common.util.ThreadUtil;
@@ -51,7 +50,7 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
 
     @Override
     public int getDataType() {
-        return Consumer.AUDIO;
+        return C.AUDIO;
     }
 
     @Override
@@ -183,7 +182,7 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
                 soundTouch = null;
                 if (mListener != null) {
                     mListener.onRecordFinish(new ClipInfo(configuration.getFileName(),
-                            0, configuration.getSpeedMode(), getDataType()));
+                            duration, getDataType()));
                 }
                 encodeHandler.getLooper().quitSafely();
                 encodeHandler = null;

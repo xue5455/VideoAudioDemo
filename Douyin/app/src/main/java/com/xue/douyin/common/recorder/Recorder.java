@@ -1,6 +1,6 @@
 package com.xue.douyin.common.recorder;
 
-import com.xue.douyin.common.recorder.tst.Consumer;
+import com.xue.douyin.common.C;
 
 import java.io.IOException;
 
@@ -9,7 +9,10 @@ import java.io.IOException;
  */
 
 public interface Recorder<T> {
-    @Consumer.DataType
+
+
+
+    @C.DataType
     int getDataType();
 
     void setOnRecordFinishListener(OnRecordFinishListener listener);

@@ -4,14 +4,13 @@ import android.opengl.EGLContext;
 import android.support.annotation.Nullable;
 import com.xue.douyin.common.C;
 import com.xue.douyin.common.recorder.audio.AudioConfig;
-import com.xue.douyin.common.recorder.tst.Consumer;
 import com.xue.douyin.common.recorder.video.VideoConfig;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
 import com.xue.douyin.common.util.FileUtils;
 import com.xue.douyin.common.view.record.OnFrameAvailableListener;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.xue.douyin.common.C.VIDEO;
+
 
 /**
  * Created by 薛贤俊 on 2018/3/15.
@@ -25,8 +24,6 @@ public class MediaRecorder implements OnFrameAvailableListener, OnRecordFinishLi
      */
     private int remainDuration;
 
-    private List<MediaData> mVideoData;
-
     private OnRecordFinishListener mFinishListener;
 
     private AudioRecorder audioRecorder;
@@ -37,7 +34,6 @@ public class MediaRecorder implements OnFrameAvailableListener, OnRecordFinishLi
 
     public MediaRecorder(int seconds, @Nullable OnRecordFinishListener listener) {
         mFinishListener = listener;
-        mVideoData = new ArrayList<>();
         audioRecorder = new AudioRecorder();
         videoRecorder = new VideoRecorder();
         remainDuration = seconds * C.SECOND_IN_US;
@@ -47,7 +43,7 @@ public class MediaRecorder implements OnFrameAvailableListener, OnRecordFinishLi
     }
 
 
-    public boolean start(EGLContext context, int width, int height, @MediaConfig.SpeedMode int mode) {
+    public boolean start(EGLContext context, int width, int height, @C.SpeedMode int mode) {
         if (remainDuration <= 0) {
             return false;
         }
@@ -98,19 +94,9 @@ public class MediaRecorder implements OnFrameAvailableListener, OnRecordFinishLi
         videoRecorder.setOnProgressListener(listener);
     }
 
-
-    public List<MediaData> getVideos() {
-        return mVideoData;
-    }
-
-    public void deleteLastClip() {
-        MediaData data = mVideoData.remove(mVideoData.size() - 1);
-        FileUtils.deleteFile(data.getFilePath());
-    }
-
     @Override
     public void onRecordFinish(ClipInfo info) {
-        if (info.getType() == Consumer.VIDEO) {
+        if (info.getType() == VIDEO) {
             remainDuration -= info.getDuration();
         }
         if (mFinishListener != null) {

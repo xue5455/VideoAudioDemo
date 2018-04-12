@@ -1,6 +1,6 @@
 package com.xue.douyin.common.recorder;
 
-import com.xue.douyin.common.recorder.tst.Consumer;
+import com.xue.douyin.common.C;
 
 /**
  * Created by 薛贤俊 on 2018/4/11.
@@ -10,16 +10,12 @@ public class ClipInfo {
 
     private String fileName;
 
-    private @MediaConfig.SpeedMode
-    int speedMode;
-
     private long duration;
 
     private int type;
 
-    public ClipInfo(String fileName, long duration, int speedMode, @Consumer.DataType int type) {
+    public ClipInfo(String fileName, long duration,@C.DataType int type) {
         this.fileName = fileName;
-        this.speedMode = speedMode;
         this.duration = duration;
         this.type = type;
     }
@@ -28,15 +24,11 @@ public class ClipInfo {
         return fileName;
     }
 
-    public int getSpeedMode() {
-        return speedMode;
-    }
-
     public long getDuration() {
         return duration;
     }
 
-    public @Consumer.DataType
+    public @C.DataType
     int getType() {
         return type;
     }

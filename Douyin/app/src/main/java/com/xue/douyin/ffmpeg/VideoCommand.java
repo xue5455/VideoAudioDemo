@@ -4,7 +4,6 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.util.Log;
 
-import com.xue.douyin.common.recorder.MediaData;
 import com.xue.douyin.common.util.FileUtils;
 import com.xue.douyin.common.util.LogUtil;
 import com.xue.douyin.common.util.StorageUtil;
@@ -58,34 +57,6 @@ public class VideoCommand {
         mContent.toArray(array);
         LogUtil.d(toString());
         return array;
-    }
-
-    /**
-     * 合并多个视频
-     */
-    public static VideoCommand mergeMusic(List<MediaData> videos, String output) {
-        //检测是否有无音轨视频
-        VideoCommand cmd = new VideoCommand();
-        cmd.append("ffmpeg");
-        cmd.append("-y");
-        //添加输入标示
-        for (MediaData e : videos) {
-            cmd.append("-i").append(e.getFilePath());
-        }
-        //添加滤镜标识
-        cmd.append("-filter_complex");
-        StringBuilder filter_complex = new StringBuilder();
-        for (int i = 0; i < videos.size(); i++) {
-            filter_complex.append("[").append(i).append(":a]");
-        }
-        filter_complex.append("concat=n=").append(videos.size()).append(":v=0:a=1[outa]");
-
-        if (!filter_complex.toString().equals("")) {
-            cmd.append(filter_complex.toString());
-        }
-        cmd.append("-map").append("[outa]");
-        cmd.append("-preset").append("superfast").append(output);
-        return cmd;
     }
 
 

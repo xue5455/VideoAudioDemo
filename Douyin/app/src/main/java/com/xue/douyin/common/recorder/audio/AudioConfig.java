@@ -1,5 +1,6 @@
 package com.xue.douyin.common.recorder.audio;
 
+import com.xue.douyin.common.C;
 import com.xue.douyin.common.recorder.MediaConfig;
 
 /**
@@ -12,7 +13,7 @@ public class AudioConfig {
 
     private int samplePerFrame;
 
-    private @MediaConfig.SpeedMode
+    private @C.SpeedMode
     int speedMode;
 
     private String fileName;

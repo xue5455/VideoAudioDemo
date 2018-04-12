@@ -8,10 +8,8 @@ import android.view.WindowManager;
 
 import com.xue.douyin.R;
 import com.xue.douyin.base.activity.BaseBlankActivity;
-import com.xue.douyin.common.recorder.MediaData;
 import com.xue.douyin.module.effect.presenter.AfterEffectPresenter;
 
-import java.util.List;
 
 /**
  * Created by 薛贤俊 on 2018/3/15.
@@ -24,10 +22,9 @@ public class AfterEffectActivity extends BaseBlankActivity<AfterEffectPresenter>
 
     public static final String KEY_CLIP_INFO = "key:info";
 
-    public static void start(Activity from, String finalFile, List<MediaData> clips) {
+    public static void start(Activity from, String finalFile) {
         Intent intent = new Intent(from, AfterEffectActivity.class);
         intent.putExtra(KEY_FINAL_PATH, finalFile);
-        intent.putExtra(KEY_CLIP_INFO, clips.toArray());
         from.startActivity(intent);
     }
 

@@ -1,10 +1,13 @@
 package com.xue.douyin.common;
 
 import android.media.AudioFormat;
+import android.support.annotation.IntDef;
 
 import com.xue.douyin.common.util.StorageUtil;
 
 import java.io.File;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by 薛贤俊 on 2018/4/7.
@@ -53,4 +56,30 @@ public class C {
 
     public static final String VIDEO_TEMP_FILE_NAME = StorageUtil.getExternalStoragePath() +
             File.separator + "tmp1" + ".mp4";
+
+    public static final int MODE_EXTRA_SLOW = 1;
+
+    public static final int MODE_SLOW = 2;
+
+    public static final int MODE_NORMAL = 3;
+
+    public static final int MODE_FAST = 4;
+
+    public static final int MODE_EXTRA_FAST = 5;
+
+    @IntDef({MODE_EXTRA_SLOW, MODE_SLOW, MODE_NORMAL, MODE_FAST, MODE_EXTRA_FAST})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SpeedMode {
+
+    }
+    public static final int VIDEO = 1;
+
+    public static final int AUDIO = 2;
+
+    @IntDef({VIDEO, AUDIO})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface DataType {
+
+    }
+
 }
