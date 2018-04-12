@@ -49,7 +49,6 @@ public class RecordActivity extends BaseBlankActivity<RecordPresenter> {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
-        hideSystemNavigationBar();
         mPresenter.init();
         mCamera = CameraCompat.newInstance(this);
 
@@ -76,6 +75,7 @@ public class RecordActivity extends BaseBlankActivity<RecordPresenter> {
         mCamera.startPreview();
         mPreviewSize = mCamera.getOutputSize();
         mSurfaceView.setPreviewSize(mPreviewSize.height,mPreviewSize.width);
+        hideSystemNavigationBar();
     }
 
 

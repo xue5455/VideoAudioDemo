@@ -10,6 +10,7 @@ import com.xue.douyin.permission.SimplePermissionCallback;
 
 import java.util.List;
 
+import static android.hardware.Camera.Parameters.FOCUS_MODE_AUTO;
 import static android.hardware.Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO;
 
 /**
@@ -47,6 +48,13 @@ public class CameraCompatV19 extends CameraCompat {
         try {
             mCamera.setPreviewTexture(mSurfaceTexture);
             mCamera.startPreview();
+            mCamera.cancelAutoFocus();
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+                    camera.cancelAutoFocus();
+                }
+            });
         } catch (Throwable e) {
             LogUtil.e(TAG, e);
         }
@@ -96,7 +104,7 @@ public class CameraCompatV19 extends CameraCompat {
         try {
             mCamera.setDisplayOrientation(90);
             Camera.Parameters parameters = mCamera.getParameters();
-            parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_VIDEO);
+            parameters.setFocusMode(FOCUS_MODE_AUTO);
             List<Camera.Size> previewSizeList = parameters.getSupportedPreviewSizes();
             setOutputSize(CameraUtil.findBestSize(DESIRED_HEIGHT, previewSizeList));
             parameters.setPreviewSize(getOutputSize().width, getOutputSize().height);

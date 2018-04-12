@@ -47,15 +47,15 @@ public class C {
 
         public static final int I_FRAME_INTERVAL = 10;
 
-        public static final int BIT_RATE = 1000000;
+        public static final int BIT_RATE = 10000000;
     }
 
 
     public static final String AUDIO_TEMP_FILE_NAME = StorageUtil.getExternalStoragePath() +
-            File.separator + "tmp12" + ".aac";
+            File.separator + "tmp" + ".aac";
 
     public static final String VIDEO_TEMP_FILE_NAME = StorageUtil.getExternalStoragePath() +
-            File.separator + "tmp1" + ".mp4";
+            File.separator + "tmp" + ".mp4";
 
     public static final int MODE_EXTRA_SLOW = 1;
 

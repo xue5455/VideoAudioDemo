@@ -10,7 +10,10 @@ import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -41,6 +44,8 @@ public class CameraCompatV21 extends CameraCompat {
     private CaptureRequest.Builder mRequestBuilder;
 
     private Surface mSurface;
+
+    private boolean mFocusComplete = false;
 
     private final CameraCaptureSession.StateCallback mCaptureStateCallback =
             new CameraCaptureSession.StateCallback() {
@@ -103,7 +108,6 @@ public class CameraCompatV21 extends CameraCompat {
                 //获取相机的相关参数
                 CameraCharacteristics characteristics =
                         mManager.getCameraCharacteristics(cameraId);
-                // 不使用前置摄像头。
                 Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
                 if (facing == null) {
                     continue;
@@ -142,9 +146,37 @@ public class CameraCompatV21 extends CameraCompat {
 
     }
 
+
     private void startRequest(CameraCaptureSession session) {
         try {
-            session.setRepeatingRequest(mRequestBuilder.build(), null,
+            session.setRepeatingRequest(mRequestBuilder.build(), new CameraCaptureSession.CaptureCallback() {
+                        @Override
+                        public void onCaptureCompleted(@NonNull CameraCaptureSession session,
+                                                       @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+                            if (mFocusComplete) {
+                                return;
+                            }
+                            Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
+                            if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
+                                    CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
+                                // CONTROL_AE_STATE can be null on some devices
+                                Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
+                                if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
+                                    try {
+                                        mCaptureSession.stopRepeating();
+                                        mRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                                                CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
+                                        startRequest(mCaptureSession);
+                                        mFocusComplete = true;
+                                    } catch (CameraAccessException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+
+
+                        }
+                    },
                     new Handler());
         } catch (Throwable e) {
             LogUtil.e(TAG, "", e);
@@ -166,12 +198,15 @@ public class CameraCompatV21 extends CameraCompat {
     @Override
     protected void onStartPreview() {
         try {
+            mFocusComplete = false;
             mSurface = new Surface(mSurfaceTexture);
             mSurfaceTexture.setDefaultBufferSize(getOutputSize().width, getOutputSize().height);
-            mRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             mRequestBuilder.addTarget(mSurface);
             mRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO);
+                    CaptureRequest.CONTROL_AF_MODE_AUTO);
+            mRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
+                    CameraMetadata.CONTROL_AF_TRIGGER_START);
             mRequestBuilder.set(CaptureRequest.FLASH_MODE, mIsFlashLightOn ?
                     CaptureRequest.FLASH_MODE_TORCH : CaptureRequest.FLASH_MODE_OFF);
             mCamera.createCaptureSession(Collections.singletonList(mSurface),

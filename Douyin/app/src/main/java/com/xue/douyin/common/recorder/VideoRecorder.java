@@ -129,6 +129,7 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         if (listener != null) {
             listener.onRecordFinish(new ClipInfo(configuration.getFileName(), duration, getDataType()));
         }
+        offScreen.release();
         offScreen = null;
         inputSurface = null;
         glContext = null;

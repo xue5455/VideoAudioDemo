@@ -13,6 +13,8 @@ import com.xue.douyin.common.preview.GLUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import static android.opengl.GLES20.glViewport;
+
 /**
  * Created by 薛贤俊 on 2018/3/9.
  */
@@ -46,20 +48,21 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mTextureId = GLUtils.createTextureObject(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
-        if(mFilter!=null){
+        if (mFilter != null) {
             mFilter.release();
         }
 //        mFilter = new ColorContrastFilter(1f);
         mFilter = new ImageFilter();
     }
 
-    public void setPreviewSize(int width,int height){
+    public void setPreviewSize(int width, int height) {
         mPreviewHeight = height;
         mPreviewWidth = width;
     }
+
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+        glViewport(0, 0, width, height);
     }
 
     public void setFilter(ImageFilter filter) {
@@ -69,7 +72,7 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
-        if(mFilter==null){
+        if (mFilter == null) {
             return;
         }
         float matrix[] = new float[16];
