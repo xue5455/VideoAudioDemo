@@ -2,16 +2,22 @@ package com.xue.douyin.common.camera;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.Rect;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.xue.douyin.common.util.LogUtil;
+import com.xue.douyin.common.util.ScreenUtil;
 import com.xue.douyin.permission.PermissionManager;
 import com.xue.douyin.permission.SimplePermissionCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.hardware.Camera.Parameters.FOCUS_MODE_AUTO;
 import static android.hardware.Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO;
+import static android.hardware.Camera.Parameters.FOCUS_MODE_FIXED;
 
 /**
  * Created by 薛贤俊 on 2018/3/7.
@@ -48,13 +54,6 @@ public class CameraCompatV19 extends CameraCompat {
         try {
             mCamera.setPreviewTexture(mSurfaceTexture);
             mCamera.startPreview();
-            mCamera.cancelAutoFocus();
-            mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(boolean success, Camera camera) {
-                    camera.cancelAutoFocus();
-                }
-            });
         } catch (Throwable e) {
             LogUtil.e(TAG, e);
         }
@@ -104,7 +103,7 @@ public class CameraCompatV19 extends CameraCompat {
         try {
             mCamera.setDisplayOrientation(90);
             Camera.Parameters parameters = mCamera.getParameters();
-            parameters.setFocusMode(FOCUS_MODE_AUTO);
+            parameters.setFocusMode(FOCUS_MODE_CONTINUOUS_VIDEO);
             List<Camera.Size> previewSizeList = parameters.getSupportedPreviewSizes();
             setOutputSize(CameraUtil.findBestSize(DESIRED_HEIGHT, previewSizeList));
             parameters.setPreviewSize(getOutputSize().width, getOutputSize().height);

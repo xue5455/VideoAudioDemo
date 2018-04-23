@@ -5,6 +5,7 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
+import com.xue.douyin.common.preview.filters.ColorContrastFilter;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
 import com.xue.douyin.common.preview.filters.SobelEdgeDetectFilter;
 import com.xue.douyin.common.preview.filters.ImageFilter;
@@ -51,7 +52,7 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         if (mFilter != null) {
             mFilter.release();
         }
-//        mFilter = new ColorContrastFilter(1f);
+//        mFilter = new ColorContrastFilter(2f);
         mFilter = new ImageFilter();
     }
 

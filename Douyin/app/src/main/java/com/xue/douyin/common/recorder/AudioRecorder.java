@@ -40,9 +40,9 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
 
     private boolean started = false;
 
-    private BufferedOutputStream mStream;
+    private BufferedOutputStream fileStream;
 
-    private OnRecordFinishListener mListener;
+    private OnRecordFinishListener finishListener;
 
     private long sampleDuration;
 
@@ -55,7 +55,7 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
 
     @Override
     public void setOnRecordFinishListener(OnRecordFinishListener listener) {
-        mListener = listener;
+        finishListener = listener;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
         encoder = MediaCodec.createEncoderByType(C.AudioParams.MIME_TYPE);
         encoder.configure(audioFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
         bufferInfo = new MediaCodec.BufferInfo();
-        mStream = new BufferedOutputStream(new FileOutputStream(configuration.getFileName()));
+        fileStream = new BufferedOutputStream(new FileOutputStream(configuration.getFileName()));
     }
 
     @Override
@@ -176,12 +176,12 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
                 encoder.stop();
                 encoder.release();
                 encoder = null;
-                FileUtils.closeSafely(mStream);
-                mStream = null;
+                FileUtils.closeSafely(fileStream);
+                fileStream = null;
                 soundTouch.close();
                 soundTouch = null;
-                if (mListener != null) {
-                    mListener.onRecordFinish(new ClipInfo(configuration.getFileName(),
+                if (finishListener != null) {
+                    finishListener.onRecordFinish(new ClipInfo(configuration.getFileName(),
                             duration, getDataType()));
                 }
                 encodeHandler.getLooper().quitSafely();
@@ -256,8 +256,8 @@ public class AudioRecorder implements Recorder<AudioConfig>, Runnable {
             addADTSHeader(data, outSize + 7);
             encodedData.get(data, 7, outSize);
             try {
-                mStream.write(data, 0, data.length);
-                mStream.flush();
+                fileStream.write(data, 0, data.length);
+                fileStream.flush();
                 duration += sampleDuration;
             } catch (IOException e) {
                 LogUtil.e(e);

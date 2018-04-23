@@ -26,6 +26,7 @@ import com.xue.douyin.common.view.record.OnSurfaceCreatedCallback;
 import com.xue.douyin.ffmpeg.VideoCmdCallback;
 import com.xue.douyin.ffmpeg.VideoCommand;
 import com.xue.douyin.ffmpeg.VideoQueue;
+import com.xue.douyin.module.effect.activity.AfterEffectActivity;
 import com.xue.douyin.module.record.activity.RecordActivity;
 import com.xue.douyin.permission.PermissionManager;
 
@@ -213,6 +214,7 @@ public class RecordPresenter extends BaseActivityPresenter<RecordActivity>
             public void onCommandFinish(boolean success) {
                 dialog.dismiss();
                 Toast.makeText(getTarget(), "合成完毕", Toast.LENGTH_SHORT).show();
+                AfterEffectActivity.start(getTarget(),mFinalPath);
             }
         });
     }

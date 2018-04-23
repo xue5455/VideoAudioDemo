@@ -149,35 +149,8 @@ public class CameraCompatV21 extends CameraCompat {
 
     private void startRequest(CameraCaptureSession session) {
         try {
-            session.setRepeatingRequest(mRequestBuilder.build(), new CameraCaptureSession.CaptureCallback() {
-                        @Override
-                        public void onCaptureCompleted(@NonNull CameraCaptureSession session,
-                                                       @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
-                            if (mFocusComplete) {
-                                return;
-                            }
-                            Integer afState = result.get(CaptureResult.CONTROL_AF_STATE);
-                            if (CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED == afState ||
-                                    CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED == afState) {
-                                // CONTROL_AE_STATE can be null on some devices
-                                Integer aeState = result.get(CaptureResult.CONTROL_AE_STATE);
-                                if (aeState == null || aeState == CaptureResult.CONTROL_AE_STATE_CONVERGED) {
-                                    try {
-                                        mCaptureSession.stopRepeating();
-                                        mRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                                                CaptureRequest.CONTROL_AF_TRIGGER_IDLE);
-                                        startRequest(mCaptureSession);
-                                        mFocusComplete = true;
-                                    } catch (CameraAccessException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-
-
-                        }
-                    },
-                    new Handler());
+            session.setRepeatingRequest(mRequestBuilder.build(), null,
+                    null);
         } catch (Throwable e) {
             LogUtil.e(TAG, "", e);
         }
@@ -204,9 +177,7 @@ public class CameraCompatV21 extends CameraCompat {
             mRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             mRequestBuilder.addTarget(mSurface);
             mRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                    CaptureRequest.CONTROL_AF_MODE_AUTO);
-            mRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
-                    CameraMetadata.CONTROL_AF_TRIGGER_START);
+                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_VIDEO);
             mRequestBuilder.set(CaptureRequest.FLASH_MODE, mIsFlashLightOn ?
                     CaptureRequest.FLASH_MODE_TORCH : CaptureRequest.FLASH_MODE_OFF);
             mCamera.createCaptureSession(Collections.singletonList(mSurface),

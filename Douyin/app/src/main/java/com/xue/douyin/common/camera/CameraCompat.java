@@ -177,13 +177,13 @@ public abstract class CameraCompat {
     }
 
     public static CameraCompat newInstance(Context context) {
-//        int api = Build.VERSION.SDK_INT;
-//        if (api >= 21) {
-//            return new CameraCompatV21(context);
-//        } else {
-//            return new CameraCompatV19(context);
-//        }
-        return new CameraCompatV19(context);
+        int api = Build.VERSION.SDK_INT;
+        if (api >= 21) {
+            return new CameraCompatV21(context);
+        } else {
+            return new CameraCompatV19(context);
+        }
+//        return new CameraCompatV19(context);
     }
 
     public static class CameraSize {
