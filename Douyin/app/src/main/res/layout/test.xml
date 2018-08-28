@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.xue.douyin.common.view.ProgressBar
+        android:layout_width="200dp"
+        app:pb_progress_radius="3dp"
+        app:pb_thumb_radius="5dp"
+        app:pb_progress_height="5dp"
+        android:layout_height="50dp" />
+</FrameLayout>

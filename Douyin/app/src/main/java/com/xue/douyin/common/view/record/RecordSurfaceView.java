@@ -6,6 +6,8 @@ import android.opengl.EGLContext;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
+import com.xue.douyin.common.preview.filters.ImageFilter;
+
 /**
  * Created by 薛贤俊 on 2018/3/9.
  */
@@ -55,5 +57,9 @@ public class RecordSurfaceView extends GLSurfaceView implements SurfaceTexture.O
 
     public void setPreviewSize(int width,int height){
         mRenderer.setPreviewSize(width,height);
+    }
+
+    public void setFilter(ImageFilter filter){
+        mRenderer.setFilter(filter);
     }
 }

@@ -11,4 +11,17 @@
         <attr name="pv_divider_color" format="color|reference" />
         <attr name="pv_divider_width" format="dimension|reference" />
     </declare-styleable>
+
+    <declare-styleable name="ProgressBar">
+        <attr name="pb_progress_height" format="dimension|reference" />
+        <attr name="pb_progress_radius" format="dimension|reference" />
+        <attr name="pb_progress_color" format="color|reference" />
+        <attr name="pb_thumb_color" format="color|reference" />
+        <attr name="pb_passed_color" format="color|reference" />
+        <attr name="pb_thumb_radius" format="dimension|reference" />
+        <attr name="pb_thumb_width" format="dimension|reference" />
+        <attr name="pb_thumb_height" format="dimension|reference" />
+        <attr name="pb_thumb_max_height" format="dimension|reference" />
+        <attr name="pb_thumb_max_width" format="dimension|reference" />
+    </declare-styleable>
 </resources>

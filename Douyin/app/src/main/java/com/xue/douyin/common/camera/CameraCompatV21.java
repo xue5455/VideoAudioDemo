@@ -45,8 +45,6 @@ public class CameraCompatV21 extends CameraCompat {
 
     private Surface mSurface;
 
-    private boolean mFocusComplete = false;
-
     private final CameraCaptureSession.StateCallback mCaptureStateCallback =
             new CameraCaptureSession.StateCallback() {
                 @Override
@@ -171,7 +169,6 @@ public class CameraCompatV21 extends CameraCompat {
     @Override
     protected void onStartPreview() {
         try {
-            mFocusComplete = false;
             mSurface = new Surface(mSurfaceTexture);
             mSurfaceTexture.setDefaultBufferSize(getOutputSize().width, getOutputSize().height);
             mRequestBuilder = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);

@@ -79,6 +79,10 @@ public class RecordActivity extends BaseBlankActivity<RecordPresenter> {
         hideSystemNavigationBar();
     }
 
+    public CameraCompat.CameraSize getCameraSize(){
+        return mCamera.getOutputSize();
+    }
+
 
     @Override
     protected void onPause() {

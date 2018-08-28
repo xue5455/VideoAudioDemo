@@ -33,6 +33,7 @@ public class C {
 
         public static final int BIT_RATE = 64000;
 
+
         public static final int SAMPLE_RATE = 44100;
 
         public static final String MIME_TYPE = "audio/mp4a-latm";
@@ -45,8 +46,16 @@ public class C {
 
         public static final int SAMPLE_RATE = 30;
 
-        public static final int I_FRAME_INTERVAL = 10;
-
+        public static final int I_FRAME_INTERVAL = 0;
+        /**
+         * 16*1000 bps：可视电话质量
+         * 128-384 * 1000 bps：视频会议系统质量
+         * 1.25 * 1000000 bps：VCD质量（使用MPEG1压缩）
+         * 5 * 1000000 bps：DVD质量（使用MPEG2压缩）
+         * 8-15 * 1000000 bps：高清晰度电视（HDTV） 质量（使用H.264压缩）
+         * 29.4  * 1000000 bps：HD DVD质量
+         * 40 * 1000000 bps：蓝光光碟质量（使用MPEG2、H.264或VC-1压缩）
+         */
         public static final int BIT_RATE = 10000000;
     }
 

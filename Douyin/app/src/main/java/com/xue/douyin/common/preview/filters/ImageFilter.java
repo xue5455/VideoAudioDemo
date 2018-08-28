@@ -44,15 +44,15 @@ public class ImageFilter {
                     "    vTextureCoord = (uTexMatrix * aTextureCoord).xy;\n" +
                     "}\n";
 
-    private RendererInfo mRendererInfo = new RendererInfo();
+    protected RendererInfo mRendererInfo = new RendererInfo();
 
     private ThreadLocal<TextureProgram> mProgram = new ThreadLocal<>();
 
-    private int mAttrPositionLocation;
+    protected int mAttrPositionLocation;
 
-    private int mAttrTexCoordLocation;
+    protected int mAttrTexCoordLocation;
 
-    private int mUniformTexMatrixLocation;
+    protected int mUniformTexMatrixLocation;
 
     public void init() {
         if (mProgram.get() != null) {
@@ -99,11 +99,17 @@ public class ImageFilter {
         glDisableVertexAttribArray(mAttrPositionLocation);
         glDisableVertexAttribArray(mAttrTexCoordLocation);
     }
-    protected void setFragmentAttrs(){
+
+    protected void setFragmentAttrs() {
+
+    }
+
+    protected void setVertexAttrs(){
 
     }
 
     protected void onDraw(int textureId, float[] texMatrix) {
+        setVertexAttrs();
         setFragmentAttrs();
         glUniformMatrix4fv(mUniformTexMatrixLocation, 1, false, texMatrix, 0);
         checkGlError("glUniformMatrix4fv");
@@ -147,6 +153,9 @@ public class ImageFilter {
     }
 
     public void release() {
+        if (mProgram == null || mProgram.get() == null) {
+            return;
+        }
         GLES20.glDeleteProgram(mProgram.get().getProgramId());
         mProgram.set(null);
     }

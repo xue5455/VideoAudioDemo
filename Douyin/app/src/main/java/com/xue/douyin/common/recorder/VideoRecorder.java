@@ -147,7 +147,7 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         //设置参数
         format.setInteger(MediaFormat.KEY_COLOR_FORMAT,
                 MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface);
-        format.setInteger(MediaFormat.KEY_BIT_RATE, C.VideoParams.BIT_RATE);
+        format.setInteger(MediaFormat.KEY_BIT_RATE, configuration.getBitRate());
         format.setInteger(MediaFormat.KEY_FRAME_RATE, C.VideoParams.SAMPLE_RATE);
         format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, C.VideoParams.I_FRAME_INTERVAL);
         encoder = MediaCodec.createEncoderByType(C.VideoParams.MIME_TYPE);

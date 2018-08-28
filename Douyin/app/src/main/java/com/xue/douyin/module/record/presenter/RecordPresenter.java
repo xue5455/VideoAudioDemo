@@ -20,6 +20,7 @@ import com.xue.douyin.common.recorder.OnRecordFinishListener;
 import com.xue.douyin.common.recorder.OnRecordProgressListener;
 import com.xue.douyin.common.util.FileUtils;
 import com.xue.douyin.common.util.LogUtil;
+import com.xue.douyin.common.util.ScreenUtil;
 import com.xue.douyin.common.util.StorageUtil;
 import com.xue.douyin.common.view.RecordButton;
 import com.xue.douyin.common.view.record.OnSurfaceCreatedCallback;
@@ -95,8 +96,10 @@ public class RecordPresenter extends BaseActivityPresenter<RecordActivity>
 
     @Override
     public void onRecordStart() {
-
-        if (!mRecorder.start(mGlContext, 540, 960, mMode)) {
+        int width = ScreenUtil.getScreenWidth();
+        int height = ScreenUtil.getScreenHeight();
+        //540 960
+        if (!mRecorder.start(mGlContext, getTarget().getCameraSize().width, getTarget().getCameraSize().height, mMode)) {
             Toast.makeText(getTarget(), "视频已达到最大长度", Toast.LENGTH_SHORT).show();
             return;
         }

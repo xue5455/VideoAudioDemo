@@ -37,22 +37,34 @@ public class VideoPlayer {
     //上一帧图像的时间
     private long lastSampleTime = 0;
 
+    private long duration;
+
+    private OnPlayerProgressListener progressListener;
 
     public VideoPlayer(String filePath) {
         this.filePath = filePath;
     }
 
     public void configure(Surface surface) {
-        initTrack();
         initDecoder(surface);
+        initTrack();
         handler = ThreadUtil.newHandlerThread(getClass().getSimpleName());
     }
 
-    public void configure(SurfaceTexture surfaceTexture){
+    public void setOnPlayerProgressListener(OnPlayerProgressListener listener) {
+        this.progressListener = listener;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void configure(SurfaceTexture surfaceTexture) {
         configure(new Surface(surfaceTexture));
     }
 
     public void start() {
+        stopped = false;
         batch();
     }
 
@@ -60,6 +72,7 @@ public class VideoPlayer {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                timeLine = 0;
                 stopped = true;
             }
         });
@@ -69,6 +82,9 @@ public class VideoPlayer {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                if (stopped) {
+                    return;
+                }
                 stopped = true;
                 decoder.stop();
                 decoder.release();
@@ -80,7 +96,29 @@ public class VideoPlayer {
         });
     }
 
-    public void seekTo(long timeUs) {
+    public void seekTo(final long timeUs) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                extractor.seekTo(timeUs, SEEK_TO_CLOSEST_SYNC);
+                timeLine = 0;
+                consumed = false;
+                consumeFrame(getNextSampleTime(), false);
+            }
+        });
+
+    }
+
+    public void resume() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                timeLine = 0;
+                stopped = false;
+                consumed = true;
+                batch();
+            }
+        });
 
     }
 
@@ -93,19 +131,63 @@ public class VideoPlayer {
         return extractor.getSampleTime();
     }
 
-
-    private void batch() {
-        if (stopped) {
-            timeLine = 0;
-            return;
+    private void consumeFrame(long timeStamp, boolean shouldUpdateProgress) {
+        long t = System.nanoTime() / 1000L;
+        long duration = t - timeLine;
+        if(timeLine!=0){
+            if (lastSampleTime + duration < timeStamp) {
+//                batch();
+                return;
+            }
         }
-        long timeStamp = getNextSampleTime();
-        if (timeLine == 0) {
+
+        ByteBuffer[] inputBuffers = decoder.getInputBuffers();
+        int inputBufferIndex = decoder.dequeueInputBuffer(C.BUFFER_TIME_OUT);
+        if (inputBufferIndex >= 0) {
+            ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
+            int sampleSize = extractor.readSampleData(inputBuffer, 0);
+            if (sampleSize <= 0) {
+                lastSampleTime = 0;
+                timeLine = 0;
+                extractor.seekTo(0, SEEK_TO_CLOSEST_SYNC);
+                decoder.flush();
+//                batch();
+                return;
+            }
+            decoder.queueInputBuffer(inputBufferIndex, 0, sampleSize, extractor.getSampleTime(), 0);
+            consumed = true;
+            timeLine = t;
+            lastSampleTime = timeStamp;
+            while (true) {
+                int outputBufferIndex = decoder.dequeueOutputBuffer(bufferInfo, C.BUFFER_TIME_OUT);
+                if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED
+                        || outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER
+                        || outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                    continue;
+                }
+                decoder.releaseOutputBuffer(outputBufferIndex, true);
+                if (progressListener != null && shouldUpdateProgress) {
+                    progressListener.onPlayerProgress(timeStamp);
+                }
+                break;
+            }
+        }
+
+
+       /* if (timeLine == 0) {
             ByteBuffer[] inputBuffers = decoder.getInputBuffers();
             int inputBufferIndex = decoder.dequeueInputBuffer(C.BUFFER_TIME_OUT);
             if (inputBufferIndex >= 0) {
                 ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
                 int sampleSize = extractor.readSampleData(inputBuffer, 0);
+                if (sampleSize <= 0) {
+                    lastSampleTime = 0;
+                    timeLine = 0;
+                    extractor.seekTo(0, SEEK_TO_CLOSEST_SYNC);
+                    decoder.flush();
+                    batch();
+                    return;
+                }
                 decoder.queueInputBuffer(inputBufferIndex, 0, sampleSize, extractor.getSampleTime(), 0);
                 consumed = true;
                 timeLine = System.nanoTime() / 1000L;
@@ -118,6 +200,9 @@ public class VideoPlayer {
                         continue;
                     }
                     decoder.releaseOutputBuffer(outputBufferIndex, true);
+                    if (progressListener != null && shouldUpdateProgress) {
+                        progressListener.onPlayerProgress(timeStamp);
+                    }
                     break;
                 }
             }
@@ -150,11 +235,24 @@ public class VideoPlayer {
                             continue;
                         }
                         decoder.releaseOutputBuffer(outputBufferIndex, true);
+                        if (progressListener != null && shouldUpdateProgress) {
+                            progressListener.onPlayerProgress(timeStamp);
+                        }
                         break;
                     }
                 }
-            }
+            }*/
+    }
+
+
+    private void batch() {
+        if (stopped) {
+            timeLine = 0;
+            return;
         }
+        long timeStamp = getNextSampleTime();
+
+        consumeFrame(timeStamp, true);
 
         handler.post(new Runnable() {
             @Override
@@ -189,6 +287,7 @@ public class VideoPlayer {
             String mime = format.getString(MediaFormat.KEY_MIME);
             if (mime.equals(C.VideoParams.MIME_TYPE)) {
                 videoTrack = i;
+                duration = format.containsKey(MediaFormat.KEY_DURATION) ? format.getLong(MediaFormat.KEY_DURATION) : 0;//时长
             }
         }
         if (videoTrack == -1) {
@@ -196,5 +295,9 @@ public class VideoPlayer {
                     "\nvideoTrack = " + videoTrack);
         }
 
+    }
+
+    public interface OnPlayerProgressListener {
+        void onPlayerProgress(long currentTimeUs);
     }
 }

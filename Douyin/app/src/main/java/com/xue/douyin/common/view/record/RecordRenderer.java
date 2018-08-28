@@ -5,11 +5,13 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
-import com.xue.douyin.common.preview.filters.ColorContrastFilter;
+import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
+import com.xue.douyin.common.preview.filters.SoulOutFilter;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
-import com.xue.douyin.common.preview.filters.SobelEdgeDetectFilter;
 import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.GLUtils;
+
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -25,6 +27,8 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
     private RecordSurfaceView mTarget;
 
     private ImageFilter mOldFilter;
+
+    private List<ImageFilter> mFilterList;
 
     private ImageFilter mFilter;
 
@@ -49,11 +53,13 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mTextureId = GLUtils.createTextureObject(GLES11Ext.GL_TEXTURE_EXTERNAL_OES);
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
-        if (mFilter != null) {
+        if (mFilter == null) {
+            mFilter = new ShakeEffectFilter();
+        } else {
             mFilter.release();
         }
-//        mFilter = new ColorContrastFilter(2f);
-        mFilter = new ImageFilter();
+
+//        mFilter = new ImageFilter();
     }
 
     public void setPreviewSize(int width, int height) {
@@ -70,6 +76,11 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mOldFilter = mFilter;
         mFilter = filter;
     }
+
+    public void setFilterList(List<ImageFilter> filterList) {
+        mFilterList = filterList;
+    }
+
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -93,9 +104,13 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
             mOldFilter = null;
         }
         mSurfaceTexture.getTransformMatrix(mMatrix);
-        mFilter.draw(mTextureId, mMatrix);
-
-
+        if (mFilterList != null && !mFilterList.isEmpty()) {
+            for (ImageFilter filter : mFilterList) {
+                filter.draw(mTextureId, mMatrix);
+            }
+        } else {
+            mFilter.draw(mTextureId, mMatrix);
+        }
     }
 
     public void setFrameListener(OnFrameAvailableListener listener) {

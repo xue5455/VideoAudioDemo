@@ -35,7 +35,13 @@ public class PermissionLifeCycleImpl implements Application.ActivityLifecycleCal
 
     @Override
     public void onActivityResumed(Activity activity) {
-
+        FragmentActivity fActivity = (FragmentActivity) activity;
+        Fragment fragment = fActivity.getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+        if (fragment == null) {
+            addFragment(fActivity);
+        } else {
+            mFragment = (PermissionFragment) fragment;
+        }
     }
 
     @Override
