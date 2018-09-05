@@ -5,7 +5,10 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
+import com.xue.douyin.common.preview.filters.GlitchFilter;
+import com.xue.douyin.common.preview.filters.ScaleFilter;
 import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
+import com.xue.douyin.common.preview.filters.ShineWhiteFilter;
 import com.xue.douyin.common.preview.filters.SoulOutFilter;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
 import com.xue.douyin.common.preview.filters.ImageFilter;
@@ -54,7 +57,7 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
         if (mFilter == null) {
-            mFilter = new ShakeEffectFilter();
+            mFilter = new GlitchFilter();
         } else {
             mFilter.release();
         }

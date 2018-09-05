@@ -76,7 +76,7 @@ public class GLUtils {
         glCompileShader(shaderObjectId);
         int[] compileResult = new int[1];
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileResult, 0);
-        LogUtil.d("Results of compiling source:" + "\n" + shaderCode + "\n:" + glGetShaderInfoLog(shaderObjectId));
+        LogUtil.d("Results of compiling source" + "\n:" + glGetShaderInfoLog(shaderObjectId));
         if (compileResult[0] == 0) {
             glDeleteShader(shaderObjectId);
             LogUtil.d("【ShaderUtil-compileShader】shader编译失败");
