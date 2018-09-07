@@ -56,7 +56,7 @@ public class C {
          * 29.4  * 1000000 bps：HD DVD质量
          * 40 * 1000000 bps：蓝光光碟质量（使用MPEG2、H.264或VC-1压缩）
          */
-        public static final int BIT_RATE = 10000000;
+        public static final int BIT_RATE = 5 * 1000000;
     }
 
 

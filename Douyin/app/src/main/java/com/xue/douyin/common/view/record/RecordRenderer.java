@@ -57,7 +57,7 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
         if (mFilter == null) {
-            mFilter = new GlitchFilter();
+            mFilter = new ImageFilter();
         } else {
             mFilter.release();
         }

@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.xue.douyin.R;
 import com.xue.douyin.base.activity.BaseBlankActivity;
+import com.xue.douyin.common.preview.filters.GlitchFilter;
+import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
 import com.xue.douyin.common.preview.filters.SoulOutFilter;
 import com.xue.douyin.common.util.ScreenUtil;
@@ -86,8 +88,8 @@ public class AfterEffectActivity extends BaseBlankActivity<AfterEffectPresenter>
         surfaceView = findViewById(R.id.sv_play);
         surfaceView.setOnSurfaceCreatedCallback(this);
 //        surfaceView.setFilter(new ShakeEffectFilter());
-        surfaceView.setFilter(new SoulOutFilter());
-
+//        surfaceView.setFilter(new SoulOutFilter());
+        surfaceView.setFilter(new GlitchFilter());
         btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(getPresenter());
 

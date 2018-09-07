@@ -23,12 +23,12 @@ public class GlitchFilter extends ImageFilter {
             "void main(){\n" +
             "    float u = vTextureCoord.x;\n" +
             "    float v = vTextureCoord.y;\n" +
-            "    float jitter = nrand(u,0.0) * 2.0 - 1.0;\n" +
+            "    float jitter = nrand(v,0.0) * 2.0 - 1.0;\n" +
             "    float drift = uColorDrift;\n" +
             "    float offsetParam = step(uScanLineJitter.y,abs(jitter));\n" +
             "    jitter = jitter * offsetParam * uScanLineJitter.x;\n" +
-            "    vec4 color1 = texture2D(uTexture,fract(vec2( u,v + jitter)));\n" +
-            "    vec4 color2 = texture2D(uTexture,fract(vec2(u,v+jitter-u*drift)));\n" +
+            "    vec4 color1 = texture2D(uTexture,fract(vec2( u + jitter,v)));\n" +
+            "    vec4 color2 = texture2D(uTexture,fract(vec2(u + jitter + v*drift ,v)));\n" +
             "    gl_FragColor = vec4(color1.r,color2.g,color1.b,1.0);\n" +
             "}";
 
