@@ -40,7 +40,7 @@ public class OffScreenWrapper {
         }
         mFilter = filter;
         filter.init();
-        filter.draw(textureId, matrix);
+        filter.draw(textureId, matrix,0,0);
         mEncoderSurface.setPresentationTime(time);
         mEncoderSurface.swapBuffers();
     }

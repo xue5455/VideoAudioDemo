@@ -39,8 +39,6 @@ public class VideoRecorder implements Recorder<VideoConfig> {
 
     private boolean started = false;
 
-    private MediaCodec.BufferInfo bufferInfo;
-
     private MediaMuxer muxer;
 
     private OnRecordFinishListener listener;
@@ -55,6 +53,8 @@ public class VideoRecorder implements Recorder<VideoConfig> {
     private long duration;
 
     private long startTimeStamp;
+
+    private long mLastTimeStamp;
 
     @Override
     public int getDataType() {
@@ -155,7 +155,6 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         encoder.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
         inputSurface = encoder.createInputSurface();
         glContext = configuration.getGLContext();
-        bufferInfo = new MediaCodec.BufferInfo();
         muxer = new MediaMuxer(configuration.getFileName(),
                 MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
     }
@@ -198,6 +197,7 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         }
         ByteBuffer[] encoderOutputBuffers = encoder.getOutputBuffers();
         while (true) {
+            MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
             int encoderStatus = encoder.dequeueOutputBuffer(bufferInfo, C.BUFFER_TIME_OUT);
             if (encoderStatus == MediaCodec.INFO_TRY_AGAIN_LATER) {
                 //没有数据
@@ -255,5 +255,10 @@ public class VideoRecorder implements Recorder<VideoConfig> {
         } else {
             duration = info.presentationTimeUs - startTimeStamp;
         }
+//        //偶现时间戳错乱，这里做个保护，假设一秒30帧
+//        if (info.presentationTimeUs <= mLastTimeStamp) {
+//            info.presentationTimeUs = (long) (mLastTimeStamp + C.SECOND_IN_US / 30 / factor);
+//        }
+        mLastTimeStamp = info.presentationTimeUs;
     }
 }

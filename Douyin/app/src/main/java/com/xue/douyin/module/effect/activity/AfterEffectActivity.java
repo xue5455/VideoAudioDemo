@@ -22,6 +22,7 @@ import com.xue.douyin.common.preview.filters.GlitchFilter;
 import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
 import com.xue.douyin.common.preview.filters.SoulOutFilter;
+import com.xue.douyin.common.preview.filters.TestFilter;
 import com.xue.douyin.common.util.ScreenUtil;
 import com.xue.douyin.common.view.record.OnSurfaceCreatedCallback;
 import com.xue.douyin.common.view.record.RecordSurfaceView;
@@ -89,7 +90,7 @@ public class AfterEffectActivity extends BaseBlankActivity<AfterEffectPresenter>
         surfaceView.setOnSurfaceCreatedCallback(this);
 //        surfaceView.setFilter(new ShakeEffectFilter());
 //        surfaceView.setFilter(new SoulOutFilter());
-        surfaceView.setFilter(new GlitchFilter());
+        surfaceView.setFilter(new TestFilter());
         btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(getPresenter());
 

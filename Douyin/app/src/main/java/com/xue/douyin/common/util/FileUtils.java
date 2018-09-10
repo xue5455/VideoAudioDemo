@@ -1,10 +1,18 @@
 package com.xue.douyin.common.util;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.xue.douyin.R;
+import com.xue.douyin.application.AppProfile;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.List;
@@ -79,5 +87,30 @@ public class FileUtils {
             LogUtil.e(e);
         }
 
+    }
+
+    public static String readFromRaw(int rawId) {
+        InputStream inputStream = AppProfile.getContext().getResources().openRawResource(rawId);
+        BufferedInputStream bis = new BufferedInputStream(inputStream);
+        BufferedReader br = new BufferedReader(new InputStreamReader(bis));
+        StringBuilder builder = new StringBuilder();
+        String line;
+        try {
+            while ((line = br.readLine()) != null) {
+                builder.append(line);
+                builder.append("\n");
+            }
+        } catch (Throwable e) {
+            LogUtil.e(e);
+        } finally {
+            try {
+                br.close();
+                bis.close();
+                inputStream.close();
+            } catch (Throwable e) {
+
+            }
+        }
+        return builder.toString();
     }
 }

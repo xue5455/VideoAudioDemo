@@ -5,11 +5,14 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
+import com.xue.douyin.common.preview.RenderBuffer;
 import com.xue.douyin.common.preview.filters.GlitchFilter;
 import com.xue.douyin.common.preview.filters.ScaleFilter;
 import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
 import com.xue.douyin.common.preview.filters.ShineWhiteFilter;
 import com.xue.douyin.common.preview.filters.SoulOutFilter;
+import com.xue.douyin.common.preview.filters.TestFilter;
+import com.xue.douyin.common.preview.filters.VertigoFilter;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
 import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.GLUtils;
@@ -47,6 +50,10 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
 
     private float[] mMatrix = new float[16];
 
+    private int mCanvasWidth;
+
+    private int mCanvasHeight;
+
     public RecordRenderer(RecordSurfaceView target) {
         this.mTarget = target;
     }
@@ -57,7 +64,7 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mSurfaceTexture = new SurfaceTexture(mTextureId);
         mTarget.onSurfaceCreated(mSurfaceTexture, EGL14.eglGetCurrentContext());
         if (mFilter == null) {
-            mFilter = new ImageFilter();
+            mFilter = new TestFilter();
         } else {
             mFilter.release();
         }
@@ -72,6 +79,8 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        mCanvasWidth = width;
+        mCanvasHeight = height;
         glViewport(0, 0, width, height);
     }
 
@@ -109,10 +118,10 @@ public class RecordRenderer implements GLSurfaceView.Renderer {
         mSurfaceTexture.getTransformMatrix(mMatrix);
         if (mFilterList != null && !mFilterList.isEmpty()) {
             for (ImageFilter filter : mFilterList) {
-                filter.draw(mTextureId, mMatrix);
+                filter.draw(mTextureId, mMatrix, mCanvasWidth, mCanvasHeight);
             }
         } else {
-            mFilter.draw(mTextureId, mMatrix);
+            mFilter.draw(mTextureId, mMatrix, mCanvasWidth, mCanvasHeight);
         }
     }
 

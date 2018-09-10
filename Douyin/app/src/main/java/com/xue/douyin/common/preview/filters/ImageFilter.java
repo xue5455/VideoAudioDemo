@@ -29,7 +29,7 @@ public class ImageFilter {
                     "varying vec2 vTextureCoord;\n" +
                     "uniform samplerExternalOES uTexture;\n" +
                     "void main() {\n" +
-                    "    gl_FragColor = texture2D(uTexture, vTextureCoord);\n" +
+                    "    gl_FragColor = texture2D(uTexture,vTextureCoord);\n" +
                     "}\n";
     /**
      * 默认代码
@@ -53,6 +53,12 @@ public class ImageFilter {
     protected int mAttrTexCoordLocation;
 
     protected int mUniformTexMatrixLocation;
+
+    protected int mTextureLocation;
+
+    protected int mWidth;
+
+    protected int mHeight;
 
     public void init() {
         if (mProgram.get() != null) {
@@ -87,7 +93,7 @@ public class ImageFilter {
     }
 
     protected void initFragmentArguments() {
-
+        mTextureLocation = glGetUniformLocation(getProgramId(),"uTexture");
     }
 
     protected void enableArguments() {
@@ -104,7 +110,7 @@ public class ImageFilter {
 
     }
 
-    protected void setVertexAttrs(){
+    protected void setVertexAttrs() {
 
     }
 
@@ -123,11 +129,14 @@ public class ImageFilter {
         checkGlError("glVertexAttribPointer");
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, textureId);
-
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-        checkGlError("glDrawArrays");
-        GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, 0);
-        GLES20.glUseProgram(0);
+    }
+
+    protected void onDraw(int textureId, float[] texMatrix, int width, int height) {
+        mWidth = width;
+        mHeight = height;
+        onDraw(textureId, texMatrix);
     }
 
     /**
@@ -141,14 +150,14 @@ public class ImageFilter {
         }
     }
 
-    public void draw(int textureId, float[] texMatrix) {
+    public void draw(int textureId, float[] texMatrix, int width, int height) {
         if (mProgram == null || textureId == -1) {
             return;
         }
         mProgram.get().useProgram();
         checkGlError("glUseProgram");
         enableArguments();
-        onDraw(textureId, texMatrix);
+        onDraw(textureId, texMatrix, width, height);
         disableArguments();
     }
 
