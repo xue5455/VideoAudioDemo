@@ -43,9 +43,9 @@ public class ShakeEffectFilter extends ImageFilter {
 
     private int mFrames = 0;
 
-    private static final int mMaxFrames = 12;
+    private static final int mMaxFrames = 8;
 
-    private static final int mSkipFrames = 8;
+    private static final int mSkipFrames = 4;
 
     public ShakeEffectFilter() {
     }
@@ -69,7 +69,7 @@ public class ShakeEffectFilter extends ImageFilter {
 
     @Override
     protected void setFragmentAttrs() {
-        float textureCoordOffset = 0f + 0.01f * mProgress;
+        float textureCoordOffset = 0.01f * mProgress;
         glUniform1f(mTextureCoordOffsetLocation, textureCoordOffset);
     }
 

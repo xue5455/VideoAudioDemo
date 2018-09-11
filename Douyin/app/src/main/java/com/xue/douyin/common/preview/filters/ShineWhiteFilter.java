@@ -21,7 +21,7 @@ public class ShineWhiteFilter extends ImageFilter {
 
     private int mFrames;
 
-    private int mMaxFrames = 12;
+    private int mMaxFrames = 8;
 
     private int mHalfFrames = mMaxFrames / 2;
 

@@ -43,7 +43,7 @@ public class GlitchFilter extends ImageFilter {
     /**
      * 动画总共8帧
      */
-    private int mMaxFrames = 16;
+    private int mMaxFrames = 8;
 
     private float[] mDriftSequence = new float[]{0f, 0.03f, 0.032f, 0.035f, 0.03f, 0.032f, 0.031f, 0.029f, 0.025f};
 
@@ -74,9 +74,9 @@ public class GlitchFilter extends ImageFilter {
         glUniform1f(mGlobalTimeLocation, mFrames);
         mStartTime = time;
 
-        float slDisplacement = mJitterSequence[mFrames/2];
-        float slThreshold = mThreshHoldSequence[mFrames/2];
-        float drift = mDriftSequence[mFrames / 2];
+        float slDisplacement = mJitterSequence[mFrames];
+        float slThreshold = mThreshHoldSequence[mFrames];
+        float drift = mDriftSequence[mFrames];
         mFrames++;
         if (mFrames > mMaxFrames) {
             mFrames = 0;

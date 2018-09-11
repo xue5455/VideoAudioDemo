@@ -27,7 +27,7 @@ public class ScaleFilter extends ImageFilter {
 
     private int mFrames;
 
-    private int mMaxFrames = 20;
+    private int mMaxFrames = 14;
 
     private int mMiddleFrames = mMaxFrames / 2;
 

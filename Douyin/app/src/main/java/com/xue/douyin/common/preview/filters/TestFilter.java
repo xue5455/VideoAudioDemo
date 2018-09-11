@@ -56,8 +56,6 @@ public class TestFilter extends ImageFilter {
 
     @Override
     public void draw(int textureId, float[] texMatrix, int canvasWidth, int canvasHeight) {
-
-
         if (mRenderBuffer == null) {
             mRenderBuffer = new RenderBuffer(GL_TEXTURE8, canvasWidth, canvasHeight);
             mRenderBuffer2 = new RenderBuffer(GL_TEXTURE9, canvasWidth, canvasHeight);
@@ -73,17 +71,14 @@ public class TestFilter extends ImageFilter {
         //绘制当前帧
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
         drawCurrentFrame();
-//        if (mFrames > 0 && mFrames % 2 == 0) {
-            //将当前帧的内容绘制到buffer3中
-            mRenderBuffer3.bind();
-            drawCurrentFrame();
-            mRenderBuffer3.unbind();
-            //只用两个buffer的话，屏幕中会有黑格子
-            //把3中的内容画到2中
-            mRenderBuffer2.bind();
-            drawToBuffer();
-            mRenderBuffer2.unbind();
-//        }
+        mRenderBuffer3.bind();
+        drawCurrentFrame();
+        mRenderBuffer3.unbind();
+        //只用两个buffer的话，屏幕中会有黑格子
+        //把3中的内容画到2中
+        mRenderBuffer2.bind();
+        drawToBuffer();
+        mRenderBuffer2.unbind();
         mFrames++;
         mFirst = false;
     }

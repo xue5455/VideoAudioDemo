@@ -29,5 +29,5 @@ void main(){
     vec4 lastFrame = texture2D(uTexture1,vTextureCoord);
     vec4 currentFrame = lookup(texture2D(uTexture0,vTextureCoord));
 
-    gl_FragColor = vec4(0.8 * lastFrame.r  +  0.26* currentFrame.r,0.8* lastFrame.g + 0.29*  currentFrame.g,0.8* lastFrame.b + 0.27 * currentFrame.b,1.0);
+    gl_FragColor = vec4(0.95 * lastFrame.r  +  0.05* currentFrame.r,currentFrame.g * 0.2 + lastFrame.g * 0.8, currentFrame.b,1.0);
 }
