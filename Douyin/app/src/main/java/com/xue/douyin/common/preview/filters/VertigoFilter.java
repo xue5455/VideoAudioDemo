@@ -45,7 +45,7 @@ public class VertigoFilter extends ImageFilter {
     private int mLastFrameProgram;
 
     private boolean mFirst = true;
-    
+
     @Override
     public void draw(int textureId, float[] texMatrix, int canvasWidth, int canvasHeight) {
         if (mRenderBuffer == null) {
@@ -71,7 +71,6 @@ public class VertigoFilter extends ImageFilter {
         mRenderBuffer2.bind();
         drawToBuffer();
         mRenderBuffer2.unbind();
-        mFrames++;
         mFirst = false;
     }
 
