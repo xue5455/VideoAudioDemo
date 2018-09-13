@@ -18,13 +18,7 @@ import android.widget.TextView;
 
 import com.xue.douyin.R;
 import com.xue.douyin.base.activity.BaseBlankActivity;
-import com.xue.douyin.common.preview.filters.GlitchFilter;
-import com.xue.douyin.common.preview.filters.ImageFilter;
-import com.xue.douyin.common.preview.filters.ScaleFilter;
-import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
-import com.xue.douyin.common.preview.filters.ShineWhiteFilter;
-import com.xue.douyin.common.preview.filters.SoulOutFilter;
-import com.xue.douyin.common.preview.filters.TestFilter;
+import com.xue.douyin.common.preview.filters.VertigoFilter;
 import com.xue.douyin.common.util.ScreenUtil;
 import com.xue.douyin.common.view.record.OnSurfaceCreatedCallback;
 import com.xue.douyin.common.view.record.RecordSurfaceView;
@@ -92,7 +86,7 @@ public class AfterEffectActivity extends BaseBlankActivity<AfterEffectPresenter>
         surfaceView.setOnSurfaceCreatedCallback(this);
 //        surfaceView.setFilter(new ShakeEffectFilter());
 //        surfaceView.setFilter(new SoulOutFilter());
-        surfaceView.setFilter(new TestFilter());
+        surfaceView.setFilter(new VertigoFilter());
         btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(getPresenter());
 

@@ -7,6 +7,7 @@ import static android.opengl.GLES20.glUniformMatrix4fv;
 
 /**
  * Created by 薛贤俊 on 2018/8/30.
+ * 缩放
  */
 public class ScaleFilter extends ImageFilter {
 

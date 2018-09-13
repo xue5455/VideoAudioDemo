@@ -6,6 +6,7 @@ import static android.opengl.GLES20.glUniform2fv;
 
 /**
  * Created by 薛贤俊 on 2018/8/29.
+ * 毛刺
  */
 public class GlitchFilter extends ImageFilter {
 

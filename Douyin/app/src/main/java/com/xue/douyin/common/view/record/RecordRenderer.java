@@ -5,14 +5,6 @@ import android.opengl.EGL14;
 import android.opengl.GLES11Ext;
 import android.opengl.GLSurfaceView;
 
-import com.xue.douyin.common.preview.RenderBuffer;
-import com.xue.douyin.common.preview.filters.GlitchFilter;
-import com.xue.douyin.common.preview.filters.ScaleFilter;
-import com.xue.douyin.common.preview.filters.ShakeEffectFilter;
-import com.xue.douyin.common.preview.filters.ShineWhiteFilter;
-import com.xue.douyin.common.preview.filters.SoulOutFilter;
-import com.xue.douyin.common.preview.filters.TestFilter;
-import com.xue.douyin.common.preview.filters.VertigoFilter;
 import com.xue.douyin.common.recorder.video.VideoFrameData;
 import com.xue.douyin.common.preview.filters.ImageFilter;
 import com.xue.douyin.common.preview.GLUtils;

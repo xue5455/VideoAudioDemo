@@ -5,6 +5,7 @@ import static android.opengl.GLES20.glUniform1f;
 
 /**
  * Created by 薛贤俊 on 2018/8/30.
+ * 闪白
  */
 public class ShineWhiteFilter extends ImageFilter {
     private static final String FRAGMENT = "#extension GL_OES_EGL_image_external : require\n" +

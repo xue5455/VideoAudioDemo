@@ -19,6 +19,7 @@ import static android.opengl.GLES20.glVertexAttribPointer;
 
 /**
  * Created by 薛贤俊 on 2018/8/27.
+ * 灵魂出窍
  */
 public class SoulOutFilter extends ImageFilter {
     private static final String VERTEX = "uniform mat4 uTexMatrix;\n" +
